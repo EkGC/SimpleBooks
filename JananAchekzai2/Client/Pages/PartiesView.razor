@@ -1,0 +1,55 @@
+@page "/PartiesView"
+@using Microsoft.AspNetCore.Authorization
+@inject IPartyService PartyService
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="AddParty">Add New party</button>
+</div>
+<div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th class="text-center">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in PartyService.PartiesList)
+        {
+            <tr>
+                <td><button class="btn btn-outline-primary" @onclick="()=>PartyAccount(item.Id)">@item.Id</button></td>
+                <td>@item.Name</td>
+                <td>@item.LastName</td>
+                <td class="text-center">
+                    <button class="btn btn-success" @onclick="() => EditParty(item.Id)">Edit</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    //Dont forget to use try catch when calling get data!!!!!!!!!!!!!!11
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await PartyService.Get();
+        }
+        catch
+        {
+            Console.WriteLine("Could Not Get parties");
+        }
+    }
+
+    private async Task AddParty() => NavigationManager.NavigateTo("AddEditCustomer");
+
+    private async Task EditParty(string id) => NavigationManager.NavigateTo($"AddEditCustomer/{id}");
+    private async Task PartyAccount(string id) => NavigationManager.NavigateTo($"PartyAccount/{id}");
+
+}

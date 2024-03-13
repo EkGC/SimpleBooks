@@ -1,0 +1,134 @@
+@page "/Transaction"
+@page "/Transaction/{Id}"
+@using JananAchekzai2.Client.Services.ClientPartyAccountServices
+@using JananAchekzai2.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject IClientPartyAccountService ClientPartyAccountService
+@inject IStateContainerService StateContainer
+@inject SweetAlertService Swal
+<h3>Transaction</h3>
+
+<h3>Add new Transaction To The party "@transaction.Party.Name"</h3>
+
+<EditForm class="card card-body bg-light mt-5" Model="@transaction" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group row">
+        <label for="Amount" class="col-md-2 col-form-label">Inter Transaction Amount</label>
+        <div class="col-md-10">
+            <InputNumber id="Amount" class="form-control" @bind-Value="transaction.Ammount"/>
+            <ValidationMessage For="@(() => transaction.Ammount)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="TransactionType" class="col-md-2 col-form-label">Please Chose Transaction Type</label>
+        <div class="col-md-10">
+            <InputRadioGroup id="TransactionType" class="form-check-input" @bind-Value="transaction.TransactionType">
+                @foreach (var item in TransactionType)
+                {
+                    <InputRadio Value="item" class="form-check-input "/>@item <br/>
+                }
+            </InputRadioGroup>
+            <ValidationMessage For="@(() => transaction.TransactionType)"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Currency" class="col-md-2 col-form-label">Please Select Currency</label>
+        <div class="col-md-10">
+            <InputSelect id="Currency" class="form-select" @bind-Value="transaction.Currency">
+                <option value="Afg">Afg</option>
+                <option value="Toman">Toman</option>
+            </InputSelect>
+            <ValidationMessage For="@(() => transaction.Currency)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Description" class="col-md-2 col-form-label">Description</label>
+        <div class="col-md-10">
+            <InputTextArea id="Description" class="form-control" @bind-Value="transaction.Description"/>
+            <ValidationMessage For="() => transaction.Description"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="Date" class="col-md-2 col-form-label">Date</label>
+        <div class="col-md-10">
+            <InputDate id="Date" class="form-control" @bind-Value="transaction.dateTime"/>
+            <ValidationMessage For="() => transaction.dateTime"/>
+        </div>
+    </div>
+    <div class="flex-lg-row">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button class="btn btn-danger" type="button" @onclick="HandleDelete">@deleteButton</button>
+    </div>
+
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    private Parties party { get; set; }
+    private string deleteButton = "Clear Form";
+    private Transactions transaction = new(){Id = string.Empty};
+    private List<string> TransactionType = new() { "Debit", "Credit" };
+
+    protected override void OnInitialized()
+    {
+        if (Id is null)
+        {
+            transaction.Party = StateContainer.Party;
+            transaction.PartyId = transaction.Party.Id;
+        }
+        
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id is not null)
+        {
+            transaction = await ClientPartyAccountService.GetSingleTransaction(Id);
+            party = transaction.Party;
+            deleteButton = "Delete";
+        }
+    }
+
+
+    private async Task HandleSubmit()
+    {
+        if (Id is not null)
+        {
+            var result = await ClientPartyAccountService.EditTransaction(transaction);
+            if (!result)
+            {
+                await Swal.FireAsync("Failed", "Can not Edit this record","error");
+            }
+        }
+        else
+        {
+            await ClientPartyAccountService.AddTransaction(transaction);
+        }
+    }
+
+    private async Task HandleDelete()
+    {
+        if (Id is not null)
+        {
+            var result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmation",
+                Text = "Are You Sure You Want to Delete This Record",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Yes, I Want to Proceed",
+                CancelButtonText = "No, Wait"
+            });
+
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            if (confirm)
+            {
+                await ClientPartyAccountService.DeleteTransaction(transaction.Id,party.Id);
+            }
+        }
+    }
+
+}

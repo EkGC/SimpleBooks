@@ -1,0 +1,246 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Server\\JananAchekzai2.Server.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Client\\JananAchekzai2.Client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Client\\JananAchekzai2.Client.csproj",
+        "projectName": "JananAchekzai2.Client",
+        "projectPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Client\\JananAchekzai2.Client.csproj",
+        "packagesPath": "C:\\Users\\Samimi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Samimi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj": {
+                "projectPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "CurrieTechnologies.Razor.SweetAlert2": {
+              "target": "Package",
+              "version": "[5.5.0, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Authentication": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+              "version": "[6.0.2, 6.0.2]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "browser-wasm": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Server\\JananAchekzai2.Server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Server\\JananAchekzai2.Server.csproj",
+        "projectName": "JananAchekzai2.Server",
+        "projectPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Server\\JananAchekzai2.Server.csproj",
+        "packagesPath": "C:\\Users\\Samimi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Server\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Samimi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Client\\JananAchekzai2.Client.csproj": {
+                "projectPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Client\\JananAchekzai2.Client.csproj"
+              },
+              "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj": {
+                "projectPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Server": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.25, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj",
+        "projectName": "JananAchekzai2.Shared",
+        "projectPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\JananAchekzai2.Shared.csproj",
+        "packagesPath": "C:\\Users\\Samimi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Samimi\\RiderProjects\\JananAchekzai2\\JananAchekzai2\\Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Samimi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

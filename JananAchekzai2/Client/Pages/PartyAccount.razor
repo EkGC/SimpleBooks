@@ -1,0 +1,158 @@
+@page "/PartyAccount/{id}"
+@inject IClientPartyAccountService ClientPartyAccountService
+@inject NavigationManager Nvm
+@inject IStateContainerService StateContainer
+@using JananAchekzai2.Client.Services.ClientPartyAccountServices
+@using Microsoft.AspNetCore.Authorization
+@implements IDisposable
+@attribute [Authorize]
+<h3>This is @partyAccount.Name Account page</h3>
+<div class="container">
+    <button class="btn btn-outline-secondary" @onclick="AddTransaction">Add Transaction</button>
+    <hr/>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                @if (partyAccount.BalanceAfg < 0)
+                {
+                    <div class="card text-center bg-danger mb-3" >
+                        <h3 class="card-header">Balance Afg</h3>
+                        <div class="card-body">
+                            <h5 class="card-title">@partyAccount.BalanceAfg</h5>
+                        </div>
+                    </div>
+                }else if (partyAccount.BalanceAfg >0)
+                {
+                    <div class="card text-center bg-success mb-3" >
+                        <h3 class="card-header">Balance Afg</h3>
+                        <div class="card-body">
+                            <h5 class="card-title">@partyAccount.BalanceAfg</h5>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card text-center bg-primary mb-3" >
+                        <h3 class="card-header">Balance Afg</h3>
+                        <div class="card-body">
+                            <h5 class="card-title">@partyAccount.BalanceAfg</h5>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                @if (partyAccount.BalanceTom < 0)
+                {
+                    <div class="card text-center bg-danger mb-3" >
+                        <h3 class="card-header">Balance Toman</h3>
+                        <div class="card-body">
+                            <h5 class="card-title">@partyAccount.BalanceTom</h5>
+                        </div>
+                    </div>
+                }else if (partyAccount.BalanceTom >0)
+                {
+                    <div class="card text-center bg-success mb-3" >
+                        <h3 class="card-header">Balance Toman</h3>
+                        <div class="card-body">
+                            <h5 class="card-title">@partyAccount.BalanceTom</h5>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card text-center bg-primary mb-3" >
+                        <h3 class="card-header">Balance Toman</h3>
+                        <div class="card-body">
+                            <h5 class="card-title">@partyAccount.BalanceTom</h5>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-responsive">
+                    <thead class="header purple-gradient">
+                    <tr>
+                        <th class="header" scope="col">Id</th>
+                        <th class="header" scope="col">Description</th>
+                        <th class="header text-center" scope="col">currency</th>
+                        <th class="header" scope="col">Transaction Type</th>
+                        <th class="header text-center" scope="col">Transaction Amount</th>
+                        <th class="header" scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    @if (partyAccount.OpeningBalanceAfg is not null || partyAccount.OpeningBalanceTom is not null)
+                    {
+                        <tr class="bg-gradient">
+                            <td colspan="5" class="text-end">Opening Balance Afg: </td>
+                            <td>@partyAccount.OpeningBalanceAfg</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-end">Opening Balance Toman: </td>
+                            <td>@partyAccount.OpeningBalanceTom</td>
+                        </tr>
+                    }
+                    @foreach (var item in partyAccount.TransactionsList)
+                    {
+                        if (item.TransactionType == "Debit")
+                        {
+                            <tr class="table-danger">
+                                <td>@item.Id</td>
+                                <td><a href="Transaction/@item.Id">@item.Description</a></td>
+                                <td class="text-center">@item.Currency</td>
+                                <td>@item.TransactionType</td>
+                                <td class="text-center">@item.Ammount</td>
+                                <td>@item.dateTime</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td><a href="Transaction/@item.Id">@item.Description</a></td>
+                                <td class="text-center">@item.Currency</td>
+                                <td>@item.TransactionType</td>
+                                <td class="text-center">@item.Ammount</td>
+                                <td>@item.dateTime</td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+                @if (partyAccount.TransactionsList.Count == 0)
+                {
+                    <div class="no-record">
+                        <h4>No Record Found</h4>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+    [Parameter]
+    public string? id { get; set; }
+    private Parties partyAccount = new Parties(){TransactionsList = new List<Transactions>()};
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await ClientPartyAccountService.GetPartyAccount(id);
+        partyAccount = ClientPartyAccountService.Party;
+    }
+
+    private void AddTransaction()
+    {
+        StateContainer.PartyData(partyAccount);
+        StateContainer.State += StateHasChanged;
+        Nvm.NavigateTo($"Transaction");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.State -= StateHasChanged;
+    }
+
+}

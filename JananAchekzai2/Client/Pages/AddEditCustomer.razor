@@ -1,0 +1,136 @@
+@page "/AddEditCustomer"
+@page "/AddEditCustomer/{id}"
+@using Microsoft.AspNetCore.Authorization
+@inject IPartyService PartyService
+@inject IJSRuntime Ijs
+@inject NavigationManager Nvm
+@inject SweetAlertService Swal
+@attribute [Authorize]
+
+<AuthorizedView>
+    
+</AuthorizedView>
+@if (id != null)
+{
+    <h3>Edit @party.Name</h3>
+    <PageTitle>Edit @party.Name</PageTitle>
+}
+else
+{
+    <h3>Add Party</h3>
+    <PageTitle>Add Party</PageTitle>
+}
+
+<EditForm class="card card-body bg-light mt-5" Model="@party" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group row">
+        <label for="Name" class="col-md-2 col-form-label">Name</label>
+        <div class="col-md-10">
+            <InputText id="Name" class="form-control" @bind-Value="party.Name"/>
+            <ValidationMessage For="@(() => party.Name)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="LastName" class="col-md-2 col-form-label">LastName</label>
+        <div class="col-md-10">
+            <InputText id="LastName" class="form-control mb-3" @bind-Value="party.LastName"/>
+            <ValidationMessage For="@(() => party.LastName)"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="SelectType" class="col-md-2 col-form-label">Select Type</label>
+        <div class="col-md-10">
+            <InputText id="SelectType" class="form-control" @bind-Value="party.Type"/>
+            <ValidationMessage For="@(() => party.Type)"></ValidationMessage>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="OpeningBalanceTom" class="col-md-2 col-form-label">Opening Balance Toman</label>
+        <div class="col-md-10">
+            <InputNumber id="OpeningBalanceTom" class="form-control" @bind-Value="party.OpeningBalanceTom"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="OpeningBalanceAfg" class="col-md-2 col-form-label">Opening Balance Afg</label>
+        <div class="col-md-10">
+            <InputNumber id="OpeningBalanceAfg" class="form-control" @bind-Value="party.OpeningBalanceAfg"/>
+        </div>
+    </div>
+    <div class="flex-lg-row">
+        <button class="btn btn-primary">@Submit</button>
+        <button class="btn btn-danger" id="deletButton" type="button" @onclick="() => SecondaryButtonAction(party.Id)">@deleteButtonString</button>
+    </div>
+
+</EditForm>
+
+
+
+@code {
+
+    [Parameter]
+    public string? id { get; set; }
+
+    private Parties party = new Parties() { TransactionsList = null, Id = string.Empty, Type = "Customer"};
+    string Submit = string.Empty;
+    string deleteButtonString = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        Submit = id == null ? "Add" : "Edit";
+        deleteButtonString = id == null ? "Clear Form" : "Delete";
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (id is not null)
+        {
+            await PartyService.GetSingleParty(id);
+            party = PartyService.party;
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (id is null)
+        {
+            party.BalanceAfg = party.OpeningBalanceAfg;
+            party.BalanceTom = party.OpeningBalanceTom;
+            var result = await PartyService.Add(party);
+            Console.WriteLine(result ? "party Added Successfully" : "Failed To Add The Party");
+        }
+        else
+        {
+            await PartyService.EditParty(party);
+        }
+
+    }
+
+    private async Task SecondaryButtonAction(string ID ="")
+    {
+        if (id is null)
+        {
+            party = new Parties() { TransactionsList = null, Id = string.Empty };
+        }
+        else
+        {
+            var deleteResult = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Warning",
+                Text = "Are You Sure You Want to Delete This Party",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Yes, I am Sure",
+                CancelButtonText = "No, Wait"
+            });
+            if (!string.IsNullOrEmpty(deleteResult.Value))
+            {
+                var result = await PartyService.DeleteParty(ID);
+                if (result)
+                {
+                    Nvm.NavigateTo("PartiesView");
+                }
+            }
+        }
+    }
+}
